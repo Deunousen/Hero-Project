@@ -7,14 +7,12 @@ public class FollowCamera : MonoBehaviour
 
     [SerializeField] Transform target;
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()                                       // lateupdate used instead of update to prevent potential jitter between camera and player moving
     {
         transform.position = target.position;
     }
