@@ -12,6 +12,12 @@ namespace RPG.Combat
         [SerializeField] float weaponRange = 2;
 
         Transform target;
+        Animator animator;
+
+        void Start() 
+        {
+            animator = GetComponent<Animator>();
+        }
 
         void Update() 
         {
@@ -24,12 +30,18 @@ namespace RPG.Combat
             else
             {
                 GetComponent<Mover>().Cancel();
+                AttackBehaviour();
             }
 
-            
+
         }
 
-        private bool GetIsInRange()
+        void AttackBehaviour()
+        {
+            animator.SetTrigger("attack");
+        }
+
+        bool GetIsInRange()
         {
             return Vector3.Distance(transform.position, target.position) < weaponRange;
         }
@@ -38,11 +50,18 @@ namespace RPG.Combat
         {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
+            
         }
 
         public void Cancel()
         {
             target = null;
+        }
+
+        // animation event, not called on any script
+        void Hit()
+        {
+
         }
     }
 }
