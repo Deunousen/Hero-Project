@@ -26,6 +26,7 @@ namespace RPG.Combat
         void Update() 
         {
             timeSinceLastAttack += Time.deltaTime;
+            print(timeSinceLastAttack);
 
             if (target == null) return;
             if (target.IsDead()) return;
@@ -48,9 +49,15 @@ namespace RPG.Combat
             transform.LookAt(target.transform);
             if (timeSinceLastAttack > timeBetweenAttacks)
             {
-                animator.SetTrigger("attack");
+                TriggerAttack();
                 timeSinceLastAttack = 0;
             }
+        }
+
+        private void TriggerAttack()
+        {
+            animator.ResetTrigger("stopAttacking");
+            animator.SetTrigger("attack");
         }
 
         bool GetIsInRange()
@@ -78,6 +85,7 @@ namespace RPG.Combat
 
         public void Cancel()
         {
+            GetComponent<Animator>().ResetTrigger("attack");
             GetComponent<Animator>().SetTrigger("stopAttacking");
             target = null;
         }
