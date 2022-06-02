@@ -45,6 +45,7 @@ namespace RPG.Combat
 
         void AttackBehaviour()
         {
+            transform.LookAt(target.transform);
             if (timeSinceLastAttack > timeBetweenAttacks)
             {
                 animator.SetTrigger("attack");
@@ -61,7 +62,18 @@ namespace RPG.Combat
         {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.GetComponent<Health>();
-            
+        }
+
+        public bool CanAttack(CombatTarget combatTarget)
+        {
+            if (combatTarget && !combatTarget.GetComponent<Health>().IsDead())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Cancel()
